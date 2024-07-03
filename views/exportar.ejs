@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Define a codificação de caracteres da página -->
+    <meta charset="UTF-8">
+    <!-- Define a viewport para dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da página -->
+    <title>Exportar Produtos</title>
+    <!-- Link para o arquivo de estilo CSS -->
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Link para o arquivo de estilo CSS do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Container para o menu superior -->
+    <div class="top-menu">
+        <!-- Ícone de menu -->
+        <div class="menu-icon">
+            <i class="fas fa-bars"></i>
+        </div>
+        <!-- Ícone de home -->
+        <div class="home-icon">
+            <a href="/dashboard">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+        <!-- Informações do usuário, apenas visível se o usuário estiver logado -->
+        <% if (user) { %>
+        <div class="user-info">
+            <span><%= user.nome %></span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <% } %>
+    </div>
+    <!-- Container para o formulário de exportação -->
+    <div class="container-export"> 
+        <!-- Container para o formulário -->
+        <div class="form-container"> 
+            <!-- Formulário para exportar todos os produtos -->
+            <form action="/exportar" method="post">
+                <!-- Título do formulário -->
+                <h2>Exportar Todos os Produtos</h2>
+                <!-- Botão para exportar -->
+                <button type="submit" class="submit-button"> 
+                    <i class="fas fa-file-export"></i> Exportar 
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Container para o botão de logout -->
+    <div class="logout-container">
+        <!-- Link para logout -->
+        <a href="/logout" class="logout-btn">Sair</a>
+    </div>
+    <!-- Container para o botão de voltar -->
+    <div class="back-button-container">
+        <!-- Link para voltar para a dashboard -->
+        <a href="/dashboard" class="logout-btn">Voltar</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+/**
+ * Carrega as variáveis de ambiente do arquivo .env
+ */
+require('dotenv').config();
+
+const express = require('express');
+const mysql = require('mysql2');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const app = express();
+const port = process.env.PORT || 3000;
+
+/**
+ * Configuração do banco de dados MySQL
+ * 
+ * @param {string} host - Endereço do servidor de banco de dados
+ * @param {string} user - Usuário do banco de dados
+ * @param {string} password - Senha do banco de dados
+ * @param {string} database - Nome do banco de dados
+ */
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
+/**
+ * Conecta ao banco de dados
+ * 
+ * @throws {Error} Erro ao conectar ao banco de dados
+ */
+db.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Conectado ao banco de dados MySQL');
+});
+
+/**
+ * Exemplo de uso:
+ * 
+ * const db = mysql.createConnection({
+ *   host: 'localhost',
+ *   user: 'root',
+ *   password: 'senha',
+ *   database: 'meubanco'
+ * });
+ * 
+ * db.connect((err) => {
+ *   if (err) {
+ *     throw err;
+ *   }
+ *   console.log('Conectado ao banco de dados MySQL');
+ * });
+ */
+
+/**
+ * Middleware para parsear o corpo da requisição em formato URL encoded
+ * 
+ * @example
+ * app.use(bodyParser.urlencoded({ extended: true }));
+ */
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/**
+ * Middleware para servir arquivos estáticos da pasta 'public'
+ * 
+ * @example
+ * app.use(express.static('public'));
+ */
+app.use(express.static('public'));
+
+/**
+ * Configura o motor de template EJS como o padrão para renderizar views
+ * 
+ * @example
+ * app.set('view engine', 'ejs');
+ */
+app.set('view engine', 'ejs');
+
+/**
+ * Configura a sessão do usuário com um segredo e opções de segurança
+ * 
+ * @example
+ * app.use(session({
+ *     secret: process.env.SECRET_KEY,
+ *     resave: false,
+ *     saveUninitialized: true,
+ *     cookie: { secure: false } 
+ * }));
+ */
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } 
+}));
+
+/**
+ * Middleware para verificar se o usuário está logado
+ * 
+ * Se o usuário estiver logado, permite que a requisição continue.
+ * Caso contrário, redireciona para a página de login.
+ * 
+ * @param {Object} req - Requisição HTTP
+ * @param {Object} res - Resposta HTTP
+ * @param {Function} next - Função de callback para continuar a requisição
+ * 
+ * @example
+ * app.use(redirectToLogin);
+ */
+const redirectToLogin = (req, res, next) => {
+    if (req.session.user) {
+        next(); 
+    } else {
+        res.redirect('/login'); 
+    }
+};
+
+/**
+ * Renderiza a página de login
+ * 
+ * @param {Object} req - Requisição HTTP
+ * @param {Object} res - Resposta HTTP
+ * 
+ * @example
+ * app.get('/login', (req, res) => {
+ *     res.render('index');
+ * });
+ */
+app.get('/login', (req, res) => {
+    res.render('index');
+});
+
+/**
+ * Processa o login do usuário
+ * 
+ * Verifica se o email e senha informados são válidos e, se sim, loga o usuário.
+ * 
+ * @param {Object} req - Requisição HTTP
+ * @param {Object} res - Resposta HTTP
+ * 
+ * @example
+ * app.post('/login', (req, res) => {
+ *     // ...
+ * });
+ */
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], (err, results) => {
+        if (err) throw err;
+
+        if (results.length > 0) {
+            const user = results[0];
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) throw err;
+
+                if (isMatch) {
+                    req.session.user = user;
+                    res.redirect('/dashboard');  
+                } else {
+                    res.send('Email ou senha incorretos!');
+                    res.redirect('/index');
+                }
+            });
+        } else {
+            res.send('Email ou senha incorretos!');
+        }
+    });
+});
+
+
+/**
+ * Rota para renderizar a página de importação de dados
+ * 
+ * @param {Request} req - Requisição HTTP
+ * @param {Response} res - Resposta HTTP
+ * @example
+ * GET /importar
+ */
+app.get('/importar', redirectToLogin, (req, res) => {
+    res.render('importar', { user: req.session.user }); 
+});
+
+/**
+ * Rota para renderizar a página de exportação de dados
+ * 
+ * @param {Request} req - Requisição HTTP
+ * @param {Response} res - Resposta HTTP
+ * @example
+ * GET /exportar
+ */
+app.get('/exportar', redirectToLogin, (req, res) => {
+    res.render('exportar', { user: req.session.user });
+});
+
+/**
+ * Rota para processar a importação de dados
+ * 
+ * @param {Request} req - Requisição HTTP com dados a serem importados
+ * @param {Response} res - Resposta HTTP
+ * @example
+ * POST /importar
+ * {
+ *   "dados": "codigo_de_barras;descricao;quantidade\ncodigo_de_barras;descricao;quantidade"
+ * }
+ */
+app.post('/importar', redirectToLogin, (req, res) => {
+    const dados = req.body.dados;
+
+    if (dados !== undefined) {
+        const linhas = dados.split('\n');
+
+        linhas.forEach((linha) => {
+            const [codigo_de_barras, descricao, quantidade] = linha.split(';');
+            const sql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
+            db.query(sql, [codigo_de_barras.trim(), descricao.trim(), parseInt(quantidade.trim())], (err, result) => {
+                if (err) {
+                    console.error('Erro ao inserir dados:', err);
+                } else {
+                    console.log('Dados inseridos com sucesso!');
+                }
+            });
+        });
+        res.redirect('/dashboard');
+    } else {
+        console.error('Dados não recebidos');
+        res.status(400).send('Dados não recebidos');
+    }
+});

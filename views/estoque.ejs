@@ -1,0 +1,78 @@
+Show Diff
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+    <!-- Link para o arquivo de estilo CSS -->
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Link para o arquivo de estilo CSS do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Menu superior -->
+    <div class="top-menu">
+        <!-- Ícone do menu -->
+        <div class="menu-icon">
+            <i class="fas fa-bars"></i> 
+        </div>
+        <!-- Ícone de home -->
+        <div class="home-icon">
+            <a href="/dashboard">
+                <i class="fas fa-home"></i> 
+            </a>
+        </div>
+        <!-- Informações do usuário (somente se o usuário estiver logado) -->
+        <% if (user) { %>
+        <div class="user-info">
+            <span><%= user.nome %></span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <% } %>   
+    </div>
+    
+    
+    <!-- Tabela de estoque -->
+    <div class="estoque-table">
+        <table>
+            <h1>Lista de Produtos em Estoque</h1>
+            <thead>
+                <tr>
+                    <!-- Cabeçalho da tabela -->
+                    <th>ID</th>
+                    <th>Código de Barras</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop para cada produto -->
+                <% produtos.forEach(produto => { %>
+                    <tr>
+                        <!-- Coluna de ID -->
+                        <td><%= produto.id %></td>
+                        <!-- Coluna de código de barras -->
+                        <td><%= produto.codigo_de_barras %></td>
+                        <!-- Coluna de nome e descrição -->
+                        <td>
+                            <p><strong><%= produto.descricao %></strong></p>
+                            <p><%= produto.nome %></p>
+                        </td>
+                        <!-- Coluna de quantidade -->
+                        <td><%= produto.quantidade %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <!-- Botão de logout -->
+    <div class="logout-container">
+        <a href="/logout" class="logout-btn">Sair</a>
+    </div>
+    <!-- Botão de voltar -->
+    <div class="back-button-container">
+        <a href="/dashboard" class="logout-btn">Voltar</a>
+    </div>
+</body>
+</html>
