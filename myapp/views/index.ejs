@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermercado MEGA - Login</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <div class="outer-container"> <!-- Contêiner externo -->
+        <div class="dashboard-login"> <!-- Formulário de login -->
+            <h1>Supermercado MEGA</h1>
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> <!-- Ícone de envelope -->
+                    </label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> <!-- Ícone de cadeado -->
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Senha" required>
+                </div>
+                
+                <button type="submit">Entrar</button>
+                <a href="/forgot-password" class="forgot-password">Esqueci minha senha.</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
