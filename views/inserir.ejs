@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Produto</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Menu superior com ícones de menu, home e informações do usuário -->
+    <div class="top-menu">
+        <!-- Ícone de menu -->
+        <div class="menu-icon">
+            <i class="fas fa-bars"></i> 
+        </div>
+        <!-- Ícone de home -->
+        <div class="home-icon">
+            <a href="/dashboard">
+                <i class="fas fa-home"></i> 
+            </a>
+        </div>
+        <!-- Informações do usuário, apenas visível se o usuário estiver logado -->
+        <% if (user) { %>
+        <div class="user-info">
+            <span><%= user.nome %></span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <% } %>   
+    </div>
+    <!-- Container principal do formulário -->
+    <div class="container">
+        <!-- Título do formulário -->
+        <h2>Adicionar Novo Produto</h2>
+
+        <!-- Formulário para adicionar novo produto -->
+        <form action="/inserir" method="post">
+            <!-- Grupo de campos para código de barras -->
+            <div class="form-group">
+                <label for="codigo_de_barras">Código de Barras:</label>
+                <input type="text" id="codigo_de_barras" name="codigo_de_barras" required>
+            </div>
+            <!-- Grupo de campos para descrição -->
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" name="descricao" required>
+            </div>
+            <!-- Grupo de campos para quantidade -->
+            <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="text" id="quantidade" name="quantidade" required>
+            </div>
+            <!-- Mensagem de sucesso, apenas visível se o produto for adicionado com sucesso -->
+            <% if (successMessage) { %>
+                <div class="alert alert-success" role="alert" style="color: green;"><%= successMessage %></div>
+            <% } %>
+            
+            <!-- Mensagem de erro, apenas visível se ocorrer um erro ao adicionar o produto -->
+            <% if (error) { %>
+                <div class="alert alert-danger" role="alert" style="color: red;"><%= error %></div>
+            <% } %>
+            <!-- Container do botão de submit -->
+            <div class="button-container">
+                <button type="submit">Adicionar Produto</button>
+            </div>
+        </form>
+    </div>
+    <!-- Container do botão de logout -->
+    <div class="logout-container">
+        <a href="/logout" class="logout-btn">Sair</a>
+    </div>
+    <!-- Container do botão de voltar -->
+    <div class="back-button-container">
+        <a href="/dashboard" class="logout-btn">Voltar</a>
+    </div>
+</body>
+</html>

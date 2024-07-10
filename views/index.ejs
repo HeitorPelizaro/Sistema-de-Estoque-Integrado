@@ -1,0 +1,44 @@
+Show Diff
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermercado MEGA - Login</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Container que centraliza o conteúdo da página -->
+    <div class="dashboard-container"> 
+        <!-- Container que agrupa os elementos de login -->
+        <div class="dashboard-login"> 
+            <!-- Título da página -->
+            <h1>Supermercado MEGA</h1>
+            <!-- Formulário de login -->
+            <form action="/login" method="POST">
+                <!-- Grupo de entrada de email -->
+                <div class="input-group">
+                    <!-- Rótulo e ícone para o campo de email -->
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> 
+                    </label>
+                    <!-- Campo de entrada de email -->
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+                <!-- Grupo de entrada de senha -->
+                <div class="input-group">
+                    <!-- Rótulo e ícone para o campo de senha -->
+                    <label for="password">
+                        <i class="fas fa-lock"></i> 
+                    </label>
+                    <!-- Campo de entrada de senha -->
+                    <input type="password" id="password" name="password" placeholder="Senha" required>
+                </div>
+                <!-- Botão de envio do formulário -->
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
