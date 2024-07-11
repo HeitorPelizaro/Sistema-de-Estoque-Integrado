@@ -43,7 +43,12 @@ Descubra a eficiência do nosso sistema de estoque integrado baseado na web, que
 3. Instale as dependências necessárias:
     npm install
 
-4. Inicie o servidor:
+4. Utilize o XAMPP para criar a conexão com o BD:
+    4.1 Ao abrir o xampp, inicie as conexões com o Apache e MySQL, apertando no Start em ambos
+    4.2 No MySQL, clique em Admin para abrir a página do phpMyAdmin
+    4.3 Crie um novo banco de dados e importe o arquivo .sql que está dentro da pasta db do projeto
+
+5. Inicie o servidor:
     npm start
 
 
