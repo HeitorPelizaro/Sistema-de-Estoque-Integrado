@@ -44,9 +44,9 @@ Descubra a eficiência do nosso sistema de estoque integrado baseado na web, que
     npm install
 
 4. Utilize o XAMPP para criar a conexão com o BD:
-    4.1 Ao abrir o xampp, inicie as conexões com o Apache e MySQL, apertando no Start em ambos
-    4.2 No MySQL, clique em Admin para abrir a página do phpMyAdmin
-    4.3 Crie um novo banco de dados com o nome dbd_produtos e utf8_unicode_ci e importe o arquivo .sql que está dentro da pasta db do projeto
+    - Ao abrir o xampp, inicie as conexões com o Apache e MySQL, apertando no Start em ambos
+    - No MySQL, clique em Admin para abrir a página do phpMyAdmin
+    - Crie um novo banco de dados com o nome dbd_produtos e utf8_unicode_ci e importe o arquivo .sql que está dentro da pasta db do projeto
 
 5. Inicie o servidor:
     npm start
