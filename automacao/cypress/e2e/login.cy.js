@@ -15,9 +15,9 @@ describe('Usuário', () => {
         //cy.contains("Entrar").click()
 
         // Coloca um texto
-        cy.get('#email').type("46251486856")
+        cy.get('#email').type("heitor@gmail.com")
        //cy.get('[type="text"]').type("46251486856")
-       cy.get('#password').type("heitor26112002")
+       cy.get('#password').type("26112002")
        //cy.get(':nth-child(3) > input').type("heitor26112002")
        cy.get('button').click()
        //cy.get('.buttonEntLogin').click()
