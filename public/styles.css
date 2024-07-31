@@ -190,15 +190,15 @@ button:hover {
 .top-menu {
     /* 
      * Define os estilos do menu superior.
-     * Ele terá uma cor de fundo azul, padding de 10px e 
+     * Ele terá uma cor de fundo azul, padding de 2rem e 
      * centralizará os elementos horizontalmente.
      */
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #007bff;
-    padding: 10px;
     color: #ffffff;
+    padding: 2rem;
 }
 
 .user-icon, .user-info {
@@ -414,6 +414,11 @@ button:hover {
      */
 }
 
+.estoque-table h1{
+    padding: 2rem;
+    /* Espaçamento do título com os outros conteúdos */
+}
+
 .estoque-table th {
     background-color: #007bff;
     color: white;
@@ -552,13 +557,14 @@ form {
  * Estilos para container de botão de volta
  */
 .back-button-container {
-    position: fixed;
+    position: relative;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     width: 100%;
     font-size: 20px;
+    margin-top: 5vh;
     /**
      * Descrição: Define o estilo do container do botão de volta.
      * Propriedades:
@@ -569,6 +575,7 @@ form {
      *  - text-align: alinhamento do texto do container
      *  - width: largura do container
      *  - font-size: tamanho da fonte do container
+     *  - margin-top: espaçamento entre o botão e a tabela acima
      */
 }
 
