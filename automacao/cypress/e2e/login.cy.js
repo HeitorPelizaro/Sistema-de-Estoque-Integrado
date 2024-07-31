@@ -8,17 +8,20 @@ describe('Usuário', () => {
     it('Login', () => {
 
         //visita um site
-        cy.visit("http://localhost:3000/")
+        cy.visit("http://localhost:3000/login")
 
         // clica em algo de acordo com o texto inserido no front
-        cy.contains("☰").click()
-        cy.contains("Entrar").click()
+       // cy.contains("☰").click()
+        //cy.contains("Entrar").click()
 
         // Coloca um texto
-       cy.get('[type="text"]').type("46251486856")
-       cy.get(':nth-child(3) > input').type("heitor26112002")
-       cy.get('.buttonEntLogin').click()
-       cy.get('.buttonEntLogin').click()
+        cy.get('#email').type("46251486856")
+       //cy.get('[type="text"]').type("46251486856")
+       cy.get('#password').type("heitor26112002")
+       //cy.get(':nth-child(3) > input').type("heitor26112002")
+       cy.get('button').click()
+       //cy.get('.buttonEntLogin').click()
+       //cy.get('.buttonEntLogin').click()
 
     });
 });
