@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Estrutura para tabela `produtos`
 --
-
+DROP TABLE IF EXISTS `produtos`;
 CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
   `codigo_de_barras` varchar(255) NOT NULL,
@@ -237,7 +237,7 @@ INSERT INTO `produtos` (`id`, `codigo_de_barras`, `descricao`, `quantidade`) VAL
 --
 -- Estrutura para tabela `users`
 --
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
