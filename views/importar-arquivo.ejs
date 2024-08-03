@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importar Dados</title>
+</head>
+<body>
+    <!-- 
+        Título da página: exibe o título "Importar Dados" na página
+    -->
+    <h1>Importar Dados</h1>
+    
+    <!-- 
+        Formulário para upload de arquivo: permite ao usuário selecionar um arquivo e enviá-lo para o servidor
+        action="/importar-arquivo": especifica a URL que será chamada quando o formulário for submetido
+        method="post": especifica o método HTTP a ser usado para enviar o formulário (neste caso, POST)
+        enctype="multipart/form-data": permite que o formulário envie arquivos anexos
+    -->
+    <form action="/importar-arquivo" method="post" enctype="multipart/form-data">
+        <!-- 
+            Input para seleção do arquivo: permite ao usuário selecionar um arquivo do seu computador
+            name="arquivo": especifica o nome do campo de formulário que será enviado ao servidor
+        -->
+        <input type="file" name="arquivo">
+        
+        <!-- 
+            Botão para submeter o formulário: quando clicado, envia o formulário para o servidor
+            type="submit": especifica que este é um botão de submissão de formulário
+        -->
+        <button type="submit">Importar</button>
+    </form>
+</body>
+</html>

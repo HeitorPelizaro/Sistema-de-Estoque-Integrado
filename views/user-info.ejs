@@ -1,0 +1,30 @@
+<!-- 
+  Componente de informações do usuário
+  Exibe o nome do usuário e um ícone de perfil
+  Possui um menu dropdown com opção de sair
+-->
+<div class="user-info">
+    <!-- 
+      Exibe o nome do usuário
+      <%= user.nome %> é uma variável que armazena o nome do usuário
+    -->
+    <span><%= user.nome %></span>
+    <!-- 
+      Ícone de perfil do usuário
+      Utiliza a biblioteca Font Awesome para exibir o ícone
+    -->
+    <i class="fas fa-user-circle"></i>
+    <!-- 
+      Menu dropdown com opções do usuário
+      Atualmente, apenas a opção de sair está disponível
+    -->
+    <div class="dropdown-menu">
+        <!-- 
+          Opção de sair do sistema
+          Redireciona para a página de logout quando clicado
+        -->
+        <div class="dropdown-item">
+            <a href="/logout">Sair</a>
+        </div>
+    </div>
+</div>

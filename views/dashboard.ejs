@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Supermercado MEGA</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Menu superior -->
+    <div class="top-menu">
+        <!-- Ícone de menu -->
+        <div class="menu-icon">
+            <i class="fas fa-bars"></i> 
+        </div>
+        <!-- Ícone de home -->
+        <div class="home-icon">
+            <a href="/dashboard">
+                <i class="fas fa-home"></i> 
+            </a>
+        </div>
+        <!-- Informações do usuário (somente se estiver logado) -->
+        <% if (user) { %>
+        <div class="user-info">
+            <span><%= user.nome %></span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <% } %>   
+    </div>
+    <!-- Container do dashboard -->
+    <div class="dashboard-container">
+        <!-- Menu lateral -->
+        <aside>
+            <!-- Botão de importação -->
+            <a href="/importar">
+                <button>
+                    <i class="fas fa-file-import"></i>
+                    Importar
+                </button>
+            </a>
+            <!-- Botão de scan -->
+            <a href="/scan">
+                <button>
+                    <i class="fas fa-tags"></i>
+                    Scan
+                </button>
+            </a>
+            <!-- Botão de leitura de produtos -->
+            <a href="/inserir">
+            <button>
+                <i class="fas fa-barcode"></i>
+                Ler produtos
+            </button>
+            </a>
+            <!-- Botão de estoque -->
+            <a href="/estoque">
+                <button>
+                    <i class="fas fa-boxes"></i>
+                    Estoque
+                </button>
+            </a>
+            <!-- Botão de exportação -->
+            <a href="/exportar">
+                <button>
+                    <i class="fas fa-file-export"></i>
+                    Exportar
+                </button>
+            </a>
+            <!-- Botão de tutorial -->
+            <button>
+                <i class="fas fa-question-circle"></i>
+                Tutorial
+            </button>
+            
+        </aside>
+    </div>
+    <!-- Container do botão de logout -->
+    <div class="logout-container">
+        <a href="/logout" class="logout-btn">Sair</a>
+    </div>
+    <!-- Container do botão de voltar -->
+    <div class="back-button-container">
+        <a href="/dashboard" class="logout-btn">Voltar</a>
+    </div>
+</body>
+</html>
