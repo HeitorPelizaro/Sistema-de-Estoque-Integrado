@@ -56,6 +56,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 20px;
 }
 
 .dashboard-container aside button i {
@@ -255,7 +256,8 @@ button:hover {
      * centralizará os elementos horizontalmente.
      */
     margin-bottom: 20px;
-    width: 100%;
+    width: 60%;
+    height: 50%;
 }
 
 .form-group label {
@@ -402,8 +404,9 @@ button:hover {
 .estoque-table {
     text-align: center;
     max-width: 100%;
-    margin: 0 auto;
+    margin: 50px auto 0; /* Ajuste o valor conforme necessário */
     border-collapse: collapse;
+
     /**
      * Descrição: Define o estilo padrão para tabela de estoque.
      * Propriedades:
@@ -413,6 +416,16 @@ button:hover {
      *  - border-collapse: comportamento das bordas da tabela
      */
 }
+.container-estoque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Garante espaço entre a tabela e o botão */
+    height: 100vh; /* Ajuste conforme necessário */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 
 .estoque-table th {
     background-color: #007bff;
@@ -571,6 +584,26 @@ form {
      *  - font-size: tamanho da fonte do container
      */
 }
+.back-button-container-estoque{
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: right;
+    width: 100%;
+    font-size: 20px;
+    /**
+     * Descrição: Define o estilo do container do botão de volta.
+     * Propriedades:
+     *  - position: posição do container
+     *  - bottom: distância do container até a borda inferior
+     *  - left: distância do container até a borda esquerda
+     *  - transform: efeito de translação do container
+     *  - text-align: alinhamento do texto do container
+     *  - width: largura do container
+     *  - font-size: tamanho da fonte do container
+     */
+}
 
 /**
  * Estilos para container de exportação
@@ -597,13 +630,18 @@ form {
  */
 .error-message {
     color: red;
-    margin-top: 10px;
-    /**
-     * Descrição: Define o estilo para mensagens de erro.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de erro
-     *  - margin-top: margem superior da mensagem de erro
-     */
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed; /* Altera para posição fixa */
+    top: 50px; /* Ajuste a posição superior conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Garante que esteja acima de outros elementos */
+    background-color: white; /* Adiciona fundo branco */
+    padding: 10px; /* Adiciona padding para melhor visualização */
+    border-radius: 5px; /* Adiciona borda arredondada */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
 }
 
 /**
@@ -612,7 +650,7 @@ form {
 .product-details {
     padding: 15px;
     max-width: 380px;
-    margin-top: 20px;
+    margin-top: 220px;
     text-align: center;
     /**
      * Descrição: Define o estilo para detalhes do produto.
@@ -636,20 +674,82 @@ form {
 /**
  * Estilos específicos para mensagens de produto encontrado e não encontrado
  */
-.product-not-found {
-    color: red; /* Altera a cor para vermelho */
-    /**
-     * Descrição: Define o estilo para mensagens de produto não encontrado.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de produto não encontrado
-     */
-}
+ .product-not-found {
+    color: red;
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
 
 .product-found {
-    color: green; /* Altera a cor para verde */
-    /**
-     * Descrição: Define o estilo para mensagens de produto encontrado.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de produto encontrado
-     */
+    color: green;
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgb(80, 238, 93);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.error-background {
+    background-color: rgba(255, 0, 0, 0.5); /* Fundo vermelho com opacidade */
+    color: white; /* Texto branco */
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    text-align: center;
+    z-index: 1000; /* Garante que o fundo de erro fique sobre outros elementos */
+}
+
+.error-background.active {
+    display: block; /* Mostra o fundo de erro se a classe 'active' estiver presente */
+}
+/* styles.css */
+.success-message,
+.error-message {
+    display: none; /* Esconde as mensagens por padrão */
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Exibe as mensagens quando há conteúdo */
+.success-message:not(:empty),
+.error-message:not(:empty) {
+    display: block;
+}
+
+.update-product.h2 {
+    padding: 50px;
+}
+

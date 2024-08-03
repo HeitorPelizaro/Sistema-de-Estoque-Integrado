@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escanear Produto</title>
+    <title><%= product ? 'Detalhes do Produto' : 'Escanear Produto' %></title>
     <!-- Importação do arquivo de estilo CSS -->
     <link rel="stylesheet" href="/styles.css">
     <!-- Importação do arquivo de estilo CSS do Font Awesome -->
@@ -33,20 +33,22 @@
 
     <!-- Container principal -->
     <div class="container">
-        <!-- Título da página -->
-        <h1>Escanear Produto</h1>
-        <!-- Formulário de busca de produto -->
-        <form action="/scan" method="POST" class="form-container">
-            <!-- Grupo de campos do formulário -->
-            <div class="form-group">
-                <label for="barcode">Código de Barras:</label>
-                <input type="text" id="barcode" name="barcode" required>
-            </div>
-            <!-- Container do botão de busca -->
-            <div class="button-container">
-                <button type="submit">Buscar</button>
-            </div>
-        </form>
+        <% if (!product) { %>
+            <!-- Título da página -->
+            <h1>Escanear Produto</h1>
+            <!-- Formulário de busca de produto -->
+            <form action="/scan" method="POST" class="form-container">
+                <!-- Grupo de campos do formulário -->
+                <div class="form-group">
+                    <label for="barcode">Código de Barras:</label>
+                    <input type="text" id="barcode" name="barcode" required>
+                </div>
+                <!-- Container do botão de busca -->
+                <div class="button-container">
+                    <button type="submit">Buscar</button>
+                </div>
+            </form>
+        <% } %>
 
         <!-- Se o produto for encontrado -->
         <% if (product) { %>
@@ -59,7 +61,7 @@
             </div>
 
             <!-- Formulário de atualização do produto -->
-            <div class="update-product">
+            <div class="product-details update-product">
                 <h2>Atualizar Produto</h2>
                 <form action="/atualizar-produto" method="POST" class="form-container">
                     <!-- Campo oculto com o ID do produto -->

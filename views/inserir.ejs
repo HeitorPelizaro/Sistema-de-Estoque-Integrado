@@ -51,14 +51,7 @@
                 <input type="text" id="quantidade" name="quantidade" required>
             </div>
             <!-- Mensagem de sucesso, apenas visível se o produto for adicionado com sucesso -->
-            <% if (successMessage) { %>
-                <div class="alert alert-success" role="alert" style="color: green;"><%= successMessage %></div>
-            <% } %>
-            
-            <!-- Mensagem de erro, apenas visível se ocorrer um erro ao adicionar o produto -->
-            <% if (error) { %>
-                <div class="alert alert-danger" role="alert" style="color: red;"><%= error %></div>
-            <% } %>
+             <!-- Mensagem de sucesso, apenas visível se o produto for adicionado com sucesso -->
             <!-- Container do botão de submit -->
             <div class="button-container">
                 <button type="submit">Adicionar Produto</button>

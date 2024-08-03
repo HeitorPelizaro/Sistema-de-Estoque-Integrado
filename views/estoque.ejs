@@ -33,44 +33,46 @@
     
     
     <!-- Tabela de estoque -->
-    <div class="estoque-table">
-        <table>
-            <h1>Lista de Produtos em Estoque</h1>
-            <thead>
-                <tr>
-                    <!-- Cabeçalho da tabela -->
-                    <th>ID</th>
-                    <th>Código de Barras</th>
-                    <th>Nome</th>
-                    <th>Quantidade</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Loop para cada produto -->
-                <% produtos.forEach(produto => { %>
+    <div class="container-estoque">
+        <div class="estoque-table">
+            <table>
+                <h1>Lista de Produtos em Estoque</h1>
+                <thead>
                     <tr>
-                        <!-- Coluna de ID -->
-                        <td><%= produto.id %></td>
-                        <!-- Coluna de código de barras -->
-                        <td><%= produto.codigo_de_barras %></td>
-                        <!-- Coluna de nome e descrição -->
-                        <td>
-                            <p><strong><%= produto.descricao %></strong></p>
-                            <p><%= produto.nome %></p>
-                        </td>
-                        <!-- Coluna de quantidade -->
-                        <td><%= produto.quantidade %></td>
+                        <!-- Cabeçalho da tabela -->
+                        <th>ID</th>
+                        <th>Código de Barras</th>
+                        <th>Nome</th>
+                        <th>Quantidade</th>
                     </tr>
-                <% }); %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <!-- Loop para cada produto -->
+                    <% produtos.forEach(produto => { %>
+                        <tr>
+                            <!-- Coluna de ID -->
+                            <td><%= produto.id %></td>
+                            <!-- Coluna de código de barras -->
+                            <td><%= produto.codigo_de_barras %></td>
+                            <!-- Coluna de nome e descrição -->
+                            <td>
+                                <p><strong><%= produto.descricao %></strong></p>
+                                <p><%= produto.nome %></p>
+                            </td>
+                            <!-- Coluna de quantidade -->
+                            <td><%= produto.quantidade %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- Botão de logout -->
     <div class="logout-container">
         <a href="/logout" class="logout-btn">Sair</a>
     </div>
     <!-- Botão de voltar -->
-    <div class="back-button-container">
+    <div class="back-button-container-estoque">
         <a href="/dashboard" class="logout-btn">Voltar</a>
     </div>
 </body>
