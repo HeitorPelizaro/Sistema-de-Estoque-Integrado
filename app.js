@@ -1,4 +1,5 @@
 /**
+<<<<<<< HEAD
 * Importa o módulo dotenv para carregar variáveis de ambiente
 */
 require('dotenv').config();
@@ -61,6 +62,53 @@ const port = process.env.PORT || 3000;
 * As variáveis de ambiente DB_HOST, DB_USER, DB_PASSWORD e DB_NAME devem ser definidas
 * em um arquivo .env para que a aplicação possa se conectar ao banco de dados
 */
+=======
+ * Importa o módulo dotenv para carregar variáveis de ambiente
+ */
+require('dotenv').config();
+
+/**
+ * Importa o framework Express para criar a aplicação web
+ */
+const express = require('express');
+
+/**
+ * Importa o driver MySQL2 para se conectar ao banco de dados
+ */
+const mysql = require('mysql2');
+
+/**
+ * Importa o middleware Body-Parser para parsear requisições HTTP
+ */
+const bodyParser = require('body-parser');
+
+/**
+ * Importa o módulo Bcrypt para criptografar senhas
+ */
+const bcrypt = require('bcryptjs');
+
+/**
+ * Importa o middleware Express-Session para gerenciar sessões de usuário
+ */
+const session = require('express-session');
+
+/**
+ * Cria uma instância da aplicação Express
+ */
+const app = express();
+
+/**
+ * Define a porta padrão para a aplicação (ou usa a porta definida na variável de ambiente PORT)
+ */
+const port = process.env.PORT || 3000;
+
+/**
+ * Configuração do banco de dados MySQL
+ * 
+ * As variáveis de ambiente DB_HOST, DB_USER, DB_PASSWORD e DB_NAME devem ser definidas
+ * em um arquivo .env para que a aplicação possa se conectar ao banco de dados
+ */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -103,7 +151,11 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
+<<<<<<< HEAD
     cookie: { secure: process.env.NODE_ENV === 'production' } // Configuração para usar cookies seguros em produção
+=======
+    cookie: { secure: false } 
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 }));
 
 /**
@@ -126,23 +178,39 @@ app.get('/login', (req, res) => {
     res.render('index');
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Processar o login
  * Verifica se o email e senha estão corretos e, se sim, loga o usuário
  */
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
+<<<<<<< HEAD
+=======
+    /**
+     * Consultar o banco de dados para verificar se o email existe
+     */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
     const sql = 'SELECT * FROM users WHERE email =?';
     db.query(sql, [email], (err, results) => {
         if (err) throw err;
 
         if (results.length > 0) {
             const user = results[0];
+<<<<<<< HEAD
+=======
+            /**
+             * Verificar se a senha está correta usando bcrypt
+             */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;
 
                 if (isMatch) {
+<<<<<<< HEAD
                     req.session.user = user;
                     res.redirect('/dashboard');  
                 } else {
@@ -153,16 +221,37 @@ app.post('/login', (req, res) => {
         } else {
             req.flash('error_msg', 'Email ou senha incorretos!');
             res.redirect('/login');
+=======
+                    /**
+                     * Logar o usuário e redirecionar para o dashboard
+                     */
+                    req.session.user = user;
+                    res.redirect('/dashboard');  
+                } else {
+                    res.send('Email ou senha incorretos!');
+                    res.redirect('/index');
+                }
+            });
+        } else {
+            res.send('Email ou senha incorretos!');
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
         }
     });
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Renderiza a página de dashboard do usuário.
  * 
  
+<<<<<<< HEAD
 */
+=======
+ */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/dashboard', redirectToLogin, (req, res) => {
     res.render('dashboard', { user: req.session.user });
 });
@@ -171,7 +260,11 @@ app.get('/dashboard', redirectToLogin, (req, res) => {
  * Renderiza a página de importação de dados.
  * 
 
+<<<<<<< HEAD
 */
+=======
+ */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/importar', redirectToLogin, (req, res) => {
     res.render('importar', { user: req.session.user }); 
 });
@@ -180,11 +273,16 @@ app.get('/importar', redirectToLogin, (req, res) => {
  * Renderiza a página de exportação de dados.
  * 
 
+<<<<<<< HEAD
 */
+=======
+ */
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/exportar', redirectToLogin, (req, res) => {
     res.render('exportar', { user: req.session.user });
 });
 
+<<<<<<< HEAD
 app.get('/tutorial', redirectToLogin, (req, res) => {
     res.render('tutorial', { user: req.session.user });
 });
@@ -194,6 +292,8 @@ app.get('/inserir', redirectToLogin, (req, res) => {
     res.render('inserir', { user: req.session.user, successMessage, errorMessage });
 });
 
+=======
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para processar a importação de dados
@@ -205,10 +305,54 @@ app.get('/inserir', redirectToLogin, (req, res) => {
  * @param {Object} req - Requisição HTTP
  * @param {Object} res - Resposta HTTP
  */
+<<<<<<< HEAD
 
 
 
 
+=======
+app.post('/importar', redirectToLogin, (req, res) => {
+    /**
+     * Variável que armazena os dados enviados pelo cliente
+     * @type {string}
+     */
+    const dados = req.body.dados;
+
+    if (dados!== undefined) {
+        /**
+         * Array que armazena as linhas dos dados enviados
+         * @type {string[]}
+         */
+        const linhas = dados.split('\n');
+
+        linhas.forEach((linha) => {
+            /**
+             * Array que armazena as informações de cada produto separadas por ponto e vírgula (;)
+             * @type {string[]}
+             */
+            const [codigo_de_barras, descricao, quantidade] = linha.split(';');
+
+            /**
+             * Query SQL para inserir os dados no banco de dados
+             * @type {string}
+             */
+            const sql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?,?,?)';
+
+            db.query(sql, [codigo_de_barras.trim(), descricao.trim(), parseInt(quantidade.trim())], (err, result) => {
+                if (err) {
+                    console.error('Erro ao inserir dados:', err);
+                } else {
+                    console.log('Dados inseridos com sucesso!');
+                }
+            });
+        });
+        res.redirect('/dashboard');
+    } else {
+        console.error('Dados não recebidos');
+        res.status(400).send('Dados não recebidos');
+    }
+});
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para renderizar a página de estoque
@@ -379,6 +523,7 @@ app.post('/atualizar-produto', redirectToLogin, (req, res) => {
     });
 });
 
+<<<<<<< HEAD
 
 
 // Rota de importação
@@ -467,6 +612,139 @@ app.post('/importar', (req, res) => {
     }
 });
 
+=======
+/**
+ * Endpoint para importar produtos em lote
+ * 
+ * @param {Object} req - Requisição HTTP
+ * @param {Object} res - Resposta HTTP
+ */
+app.post('/importar', redirectToLogin, (req, res) => {
+    /**
+     * Dados recebidos no corpo da requisição
+     * @type {String}
+     */
+    const dados = req.body.dados;
+
+    if (!dados) {
+        console.error('Dados não recebidos');
+        return res.status(400).send('Dados não recebidos');
+    }
+
+    /**
+     * Linhas separadas dos dados recebidos
+     * @type {Array<String>}
+     */
+    const linhas = dados.split('\n');
+    let countProcessed = 0;
+
+    /**
+     * Processamento de cada linha
+     * @param {String} linha - Linha atual
+     * @param {Number} index - Índice da linha
+     */
+    linhas.forEach((linha, index) => {
+        /**
+         * Dados do produto separados por ponto e vírgula
+         * @type {Array<String>}
+         */
+        const dadosProduto = linha.split(';');
+
+        // Verificar se há dados suficientes na linha
+        if (dadosProduto.length === 3) {
+            /**
+             * Código de barras do produto
+             * @type {String}
+             */
+            const codigo_de_barras = dadosProduto[0].trim();
+            /**
+             * Descrição do produto
+             * @type {String}
+             */
+            const descricao = dadosProduto[1].trim();
+            /**
+             * Quantidade do produto
+             * @type {Number}
+             */
+            const quantidade = parseInt(dadosProduto[2].trim());
+
+            // Verificar se o produto já existe no banco de dados
+            const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras = ?';
+            db.query(checkSql, [codigo_de_barras], (err, results) => {
+                if (err) {
+                    console.error('Erro ao verificar produto:', err);
+                    countProcessed++;
+                    if (countProcessed === linhas.length) {
+                        return res.redirect('/dashboard'); // Redireciona após processamento
+                    }
+                    return res.status(500).send('Erro ao verificar produto no banco de dados');
+                }
+
+                if (results.length > 0) {
+                    // Produto já existe, atualizar a quantidade
+                    const existingProduct = results[0];
+                    const newQuantity = existingProduct.quantidade + quantidade;
+
+                    const updateSql = 'UPDATE produtos SET quantidade = ? WHERE id = ?';
+                    db.query(updateSql, [newQuantity, existingProduct.id], (err, result) => {
+                        if (err) {
+                            console.error('Erro ao atualizar quantidade:', err);
+                        } else {
+                            console.log(`Quantidade atualizada para o produto com código de barras ${codigo_de_barras}`);
+                        }
+                        countProcessed++;
+
+                        // Verificar se todas as linhas foram processadas
+                        if (countProcessed === linhas.length) {
+                            return res.redirect('/dashboard'); // Redireciona após processamento
+                        }
+                    });
+                } else {
+                    // Produto não existe, prosseguir com a inserção
+                    const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
+                    db.query(insertSql, [codigo_de_barras, descricao, quantidade], (err, result) => {
+                        if (err) {
+                            console.error('Erro ao inserir produto:', err);
+                        } else {
+                            console.log('Produto inserido com sucesso!');
+                        }
+                        countProcessed++;
+
+                        // Verificar se todas as linhas foram processadas
+                        if (countProcessed === linhas.length) {
+                            return res.redirect('/dashboard'); // Redireciona após processamento
+                        }
+                    });
+                }
+            });
+        } else {
+            console.error(`Formato incorreto na linha ${index + 1}: ${linha}`);
+            countProcessed++;
+            if (countProcessed === linhas.length) {
+                return res.redirect('/dashboard'); // Redireciona após processamento
+            }
+        }
+    });
+});
+/**
+ * Rota para inserir um produto
+ * 
+ * @param {Object} req - Requisição HTTP
+ * @param {Object} res - Resposta HTTP
+ */
+app.get('/inserir', redirectToLogin, (req, res) => {
+    /**
+     * Verifica se há mensagens de sucesso ou erro na query string
+     */
+    const { success, message, error } = req.query;
+    const successMessage = success === 'true'? message : null;
+
+    /**
+     * Renderiza a página de inserção de produto com as mensagens de sucesso ou erro
+     */
+    res.render('inserir', { user: req.session.user, successMessage, error });
+});
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para inserir um produto via POST
@@ -549,8 +827,11 @@ app.get('/logout', (req, res) => {
     });
 });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Inicializa o servidor e define a porta de escuta.
  * 
@@ -562,4 +843,8 @@ app.listen(port, () => {
      * Imprime uma mensagem no console indicando que o servidor está rodando.
      */
     console.log(`Servidor rodando em http://localhost:${port}`);
+<<<<<<< HEAD
 });
+=======
+  });
+>>>>>>> 16621573158837e02397998ad9291c13cad19abd
