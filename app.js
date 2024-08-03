@@ -36,11 +36,11 @@ const flash = require('connect-flash');
 const app = express();
 
 app.use(session({
-    secret: 'your secret key',
+    secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
-
 app.use(flash());
 
 // Middleware para tornar as mensagens flash disponíveis nas views
@@ -103,7 +103,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } 
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Configuração para usar cookies seguros em produção
 }));
 
 /**
@@ -125,6 +125,7 @@ const redirectToLogin = (req, res, next) => {
 app.get('/login', (req, res) => {
     res.render('index');
 });
+
 
 /**
  * Processar o login
@@ -378,20 +379,7 @@ app.post('/atualizar-produto', redirectToLogin, (req, res) => {
     });
 });
 
-/**
- * Endpoint para importar produtos em lote
- * 
- * @param {Object} req - Requisição HTTP
- * @param {Object} res - Resposta HTTP
- */
-// Função para validar os dados
-function validarDados(dados) {
-    const linhas = dados.trim().split('\n');
-    return linhas.every(linha => {
-        const partes = linha.split(';');
-        return partes.length === 3 && partes.every(parte => parte.trim() !== '');
-    });
-}
+
 
 // Rota de importação
 app.post('/importar', (req, res) => {
@@ -560,6 +548,8 @@ app.get('/logout', (req, res) => {
         }
     });
 });
+
+
 
 /**
  * Inicializa o servidor e define a porta de escuta.
