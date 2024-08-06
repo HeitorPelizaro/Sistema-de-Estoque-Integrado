@@ -32,9 +32,9 @@ db.connect((err) => {
  * 
  * Exemplo de dados de um usuário a ser adicionado ao banco de dados.
  */
-const email = 'gustavo@hotmail.com';
+const email = 'iury_ls@hotmail.com';
 const password = '123456';
-const nome = 'Gustavo';
+const nome = 'Iury';
 
 /**
  * Hash da senha do usuário

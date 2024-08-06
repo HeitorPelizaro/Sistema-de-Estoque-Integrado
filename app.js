@@ -28,10 +28,28 @@ const bcrypt = require('bcryptjs');
  */
 const session = require('express-session');
 
+
+const flash = require('connect-flash');
+
 /**
  * Cria uma instância da aplicação Express
  */
 const app = express();
+
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(flash());
+
+// Middleware para tornar as mensagens flash disponíveis nas views
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    next();
+});
 
 /**
  * Define a porta padrão para a aplicação (ou usa a porta definida na variável de ambiente PORT)
@@ -86,7 +104,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } 
+    cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
 /**
@@ -115,37 +133,30 @@ app.get('/login', (req, res) => {
  */
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    /**
-     * Consultar o banco de dados para verificar se o email existe
-     */
     const sql = 'SELECT * FROM users WHERE email =?';
     db.query(sql, [email], (err, results) => {
         if (err) throw err;
 
         if (results.length > 0) {
             const user = results[0];
-            /**
-             * Verificar se a senha está correta usando bcrypt
-             */
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;
 
                 if (isMatch) {
-                    /**
-                     * Logar o usuário e redirecionar para o dashboard
-                     */
                     req.session.user = user;
                     res.redirect('/dashboard');  
                 } else {
-                    res.send('Email ou senha incorretos!');
-                    res.redirect('/index');
+                    req.flash('error_msg', 'Email ou senha incorretos!');
+                    res.redirect('/login');
                 }
             });
         } else {
-            res.send('Email ou senha incorretos!');
+            req.flash('error_msg', 'Email ou senha incorretos!');
+            res.redirect('/login');
         }
     });
 });
+
 
 /**
  * Renderiza a página de dashboard do usuário.
@@ -174,6 +185,9 @@ app.get('/exportar', redirectToLogin, (req, res) => {
     res.render('exportar', { user: req.session.user });
 });
 
+app.get('/tutorial', redirectToLogin, (req, res) => {
+    res.render('tutorial', { user: req.session.user });
+});
 
 /**
  * Rota para processar a importação de dados
@@ -185,47 +199,10 @@ app.get('/exportar', redirectToLogin, (req, res) => {
  * @param {Object} req - Requisição HTTP
  * @param {Object} res - Resposta HTTP
  */
-app.post('/importar', redirectToLogin, (req, res) => {
-    /**
-     * Variável que armazena os dados enviados pelo cliente
-     * @type {string}
-     */
-    const dados = req.body.dados;
 
-    if (dados!== undefined) {
-        /**
-         * Array que armazena as linhas dos dados enviados
-         * @type {string[]}
-         */
-        const linhas = dados.split('\n');
 
-        linhas.forEach((linha) => {
-            /**
-             * Array que armazena as informações de cada produto separadas por ponto e vírgula (;)
-             * @type {string[]}
-             */
-            const [codigo_de_barras, descricao, quantidade] = linha.split(';');
 
-            /**
-             * Query SQL para inserir os dados no banco de dados
-             * @type {string}
-             */
-            const sql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?,?,?)';
 
-            db.query(sql, [codigo_de_barras.trim(), descricao.trim(), parseInt(quantidade.trim())], (err, result) => {
-                if (err) {
-                    console.error('Erro ao inserir dados:', err);
-                } else {
-                    console.log('Dados inseridos com sucesso!');
-                }
-            });
-        });
-        res.redirect('/dashboard');
-    } else {
-        console.error('Dados não recebidos');
-        res.status(400).send('Dados não recebidos');
-    }
-});
 
 /**
  * Rota para renderizar a página de estoque
@@ -306,12 +283,6 @@ function formatDataAsCSV(data) {
     return csv;
 }
 
-/**
- * Rota para renderizar a página de escaneamento
- * 
- * @param {object} req - Requisição HTTP
- * @param {object} res - Resposta HTTP
- */
 app.get('/scan', redirectToLogin, (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login'); 
@@ -402,119 +373,100 @@ app.post('/atualizar-produto', redirectToLogin, (req, res) => {
  * @param {Object} req - Requisição HTTP
  * @param {Object} res - Resposta HTTP
  */
-app.post('/importar', redirectToLogin, (req, res) => {
-    /**
-     * Dados recebidos no corpo da requisição
-     * @type {String}
-     */
+// Função para validar os dados
+function validarDados(dados) {
+    const linhas = dados.trim().split('\n');
+    return linhas.every(linha => {
+        const partes = linha.split(';');
+        return partes.length === 3 && partes.every(parte => parte.trim() !== '');
+    });
+}
+
+// Rota de importação
+app.post('/importar', (req, res) => {
     const dados = req.body.dados;
 
-    if (!dados) {
-        console.error('Dados não recebidos');
-        return res.status(400).send('Dados não recebidos');
+    // Função para validar os dados
+    function validarDados(dados) {
+        const linhas = dados.trim().split('\n');
+        return linhas.every(linha => {
+            const partes = linha.split(';');
+            return partes.length === 3 && partes.every(parte => parte.trim() !== '');
+        });
     }
 
-    /**
-     * Linhas separadas dos dados recebidos
-     * @type {Array<String>}
-     */
-    const linhas = dados.split('\n');
-    let countProcessed = 0;
+    const importSuccessful = validarDados(dados);
 
-    /**
-     * Processamento de cada linha
-     * @param {String} linha - Linha atual
-     * @param {Number} index - Índice da linha
-     */
-    linhas.forEach((linha, index) => {
-        /**
-         * Dados do produto separados por ponto e vírgula
-         * @type {Array<String>}
-         */
-        const dadosProduto = linha.split(';');
+    if (importSuccessful) {
+        // Lógica para importar os dados
+        const linhas = dados.trim().split('\n');
+        let countProcessed = 0;
 
-        // Verificar se há dados suficientes na linha
-        if (dadosProduto.length === 3) {
-            /**
-             * Código de barras do produto
-             * @type {String}
-             */
-            const codigo_de_barras = dadosProduto[0].trim();
-            /**
-             * Descrição do produto
-             * @type {String}
-             */
-            const descricao = dadosProduto[1].trim();
-            /**
-             * Quantidade do produto
-             * @type {Number}
-             */
-            const quantidade = parseInt(dadosProduto[2].trim());
+        const processarLinha = (linha) => {
+            return new Promise((resolve, reject) => {
+                const dadosProduto = linha.split(';');
 
-            // Verificar se o produto já existe no banco de dados
-            const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras = ?';
-            db.query(checkSql, [codigo_de_barras], (err, results) => {
-                if (err) {
-                    console.error('Erro ao verificar produto:', err);
-                    countProcessed++;
-                    if (countProcessed === linhas.length) {
-                        return res.redirect('/dashboard'); // Redireciona após processamento
-                    }
-                    return res.status(500).send('Erro ao verificar produto no banco de dados');
-                }
+                if (dadosProduto.length === 3) {
+                    const codigo_de_barras = dadosProduto[0].trim();
+                    const descricao = dadosProduto[1].trim();
+                    const quantidade = parseInt(dadosProduto[2].trim());
 
-                if (results.length > 0) {
-                    // Produto já existe, atualizar a quantidade
-                    const existingProduct = results[0];
-                    const newQuantity = existingProduct.quantidade + quantidade;
-
-                    const updateSql = 'UPDATE produtos SET quantidade = ? WHERE id = ?';
-                    db.query(updateSql, [newQuantity, existingProduct.id], (err, result) => {
+                    const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras = ?';
+                    db.query(checkSql, [codigo_de_barras], (err, results) => {
                         if (err) {
-                            console.error('Erro ao atualizar quantidade:', err);
-                        } else {
-                            console.log(`Quantidade atualizada para o produto com código de barras ${codigo_de_barras}`);
+                            console.error('Erro ao verificar produto:', err);
+                            return reject(err);
                         }
-                        countProcessed++;
 
-                        // Verificar se todas as linhas foram processadas
-                        if (countProcessed === linhas.length) {
-                            return res.redirect('/dashboard'); // Redireciona após processamento
+                        if (results.length > 0) {
+                            // Produto já existe, atualizar a quantidade
+                            const existingProduct = results[0];
+                            const newQuantity = existingProduct.quantidade + quantidade;
+
+                            const updateSql = 'UPDATE produtos SET quantidade = ? WHERE id = ?';
+                            db.query(updateSql, [newQuantity, existingProduct.id], (err, result) => {
+                                if (err) {
+                                    console.error('Erro ao atualizar quantidade:', err);
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
+                        } else {
+                            // Produto não existe, prosseguir com a inserção
+                            const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
+                            db.query(insertSql, [codigo_de_barras, descricao, quantidade], (err, result) => {
+                                if (err) {
+                                    console.error('Erro ao inserir produto:', err);
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
                         }
                     });
                 } else {
-                    // Produto não existe, prosseguir com a inserção
-                    const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
-                    db.query(insertSql, [codigo_de_barras, descricao, quantidade], (err, result) => {
-                        if (err) {
-                            console.error('Erro ao inserir produto:', err);
-                        } else {
-                            console.log('Produto inserido com sucesso!');
-                        }
-                        countProcessed++;
-
-                        // Verificar se todas as linhas foram processadas
-                        if (countProcessed === linhas.length) {
-                            return res.redirect('/dashboard'); // Redireciona após processamento
-                        }
-                    });
+                    resolve(); // Resolva a promise mesmo com erro de formato
                 }
             });
-        } else {
-            console.error(`Formato incorreto na linha ${index + 1}: ${linha}`);
-            countProcessed++;
-            if (countProcessed === linhas.length) {
-                return res.redirect('/dashboard'); // Redireciona após processamento
-            }
-        }
-    });
+        };
+
+        Promise.all(linhas.map(processarLinha))
+            .then(() => {
+                req.flash('success_msg', 'Produtos importados com sucesso!');
+                req.flash('error_msg', ''); // Limpa a mensagem de erro
+                res.redirect('/importar'); // Redireciona para a página de importação
+            })
+            .catch((err) => {
+                console.error('Erro ao processar dados:', err);
+                req.flash('error_msg', 'Erro ao importar produtos. Tente novamente.');
+                req.flash('success_msg', ''); // Limpa a mensagem de sucesso
+                res.redirect('/importar'); // Redireciona para a página de importação
+            });
+    } else {
+        req.flash('error_msg', 'Erro ao importar produtos. Verifique os dados e tente novamente.');
+        req.flash('success_msg', ''); // Limpa a mensagem de sucesso
+        res.redirect('/importar'); // Redireciona para a página de importação
+    }
 });
-/**
- * Rota para inserir um produto
- * 
- * @param {Object} req - Requisição HTTP
- * @param {Object} res - Resposta HTTP
- */
 app.get('/inserir', redirectToLogin, (req, res) => {
     /**
      * Verifica se há mensagens de sucesso ou erro na query string
@@ -528,67 +480,72 @@ app.get('/inserir', redirectToLogin, (req, res) => {
     res.render('inserir', { user: req.session.user, successMessage, error });
 });
 
-/**
- * Rota para inserir um produto via POST
- * 
- * @param {Object} req - Requisição HTTP
- * @param {Object} res - Resposta HTTP
- */
 app.post('/inserir', redirectToLogin, (req, res) => {
-    /**
-     * Obtém os dados do produto do corpo da requisição
-     */
     const { codigo_de_barras, descricao, quantidade } = req.body;
 
-    /**
-     * Verifica se todos os campos necessários foram fornecidos
-     */
-    if (!codigo_de_barras ||!descricao ||!quantidade) {
-        return res.redirect('/inserir?error=Por%20favor,%20forneça%20todos%20os%20campos%20necessários.');
+    if (!codigo_de_barras || !descricao || !quantidade) {
+        return res.render('inserir', {
+            error: 'Por favor, forneça todos os campos necessários.',
+            successMessage: null,
+            user: req.session.user
+        });
     }
 
-    /**
-     * Verifica se o produto já existe no banco de dados
-     */
-    const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras =?';
+    const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras = ?';
     db.query(checkSql, [codigo_de_barras], (err, results) => {
         if (err) {
             console.error('Erro ao verificar o produto:', err);
-            return res.redirect('/inserir?error=Erro%20ao%20verificar%20o%20produto%20no%20banco%20de%20dados.');
+            return res.render('inserir', {
+                error: 'Erro ao verificar o produto no banco de dados.',
+                successMessage: null,
+                user: req.session.user
+            });
         }
 
-        /**
-         * Se o produto existir, atualiza a quantidade
-         */
         if (results.length > 0) {
             const existingProduct = results[0];
             const newQuantity = existingProduct.quantidade + parseInt(quantidade);
 
-            const updateSql = 'UPDATE produtos SET quantidade =? WHERE id =?';
+            const updateSql = 'UPDATE produtos SET quantidade = ? WHERE id = ?';
             db.query(updateSql, [newQuantity, existingProduct.id], (err, result) => {
                 if (err) {
                     console.error('Erro ao atualizar quantidade:', err);
-                    return res.redirect('/inserir?error=Erro%20ao%20atualizar%20quantidade%20do%20produto%20existente.');
+                    return res.render('inserir', {
+                        error: 'Erro ao atualizar quantidade do produto existente.',
+                        successMessage: null,
+                        user: req.session.user
+                    });
                 }
                 console.log(`Quantidade atualizada para o produto com código de barras ${codigo_de_barras}`);
-                return res.redirect('/inserir?success=true&message=Produto%20atualizado%20com%20sucesso!');
+                return res.render('inserir', {
+                    error: null,
+                    successMessage: 'Produto atualizado com sucesso!',
+                    user: req.session.user
+                });
             });
         } else {
-            /**
-             * Se o produto não existir, insere um novo registro
-             */
-            const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?,?,?)';
+            const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
             db.query(insertSql, [codigo_de_barras, descricao, quantidade], (err, result) => {
                 if (err) {
                     console.error('Erro ao inserir produto:', err);
-                    return res.redirect('/inserir?error=Erro%20ao%20inserir%20produto%20na%20tabela.');
+                    return res.render('inserir', {
+                        error: 'Erro ao inserir produto na tabela.',
+                        successMessage: null,
+                        user: req.session.user
+                    });
                 }
                 console.log('Produto inserido com sucesso!');
-                return res.redirect('/inserir?success=true&message=Produto%20adicionado%20com%20sucesso!');
+                return res.render('inserir', {
+                    error: null,
+                    successMessage: 'Produto adicionado com sucesso!',
+                    user: req.session.user
+                });
             });
         }
     });
 });
+
+
 
 /**
  * Rota para fazer logout
@@ -620,4 +577,4 @@ app.listen(port, () => {
      * Imprime uma mensagem no console indicando que o servidor está rodando.
      */
     console.log(`Servidor rodando em http://localhost:${port}`);
-  });
+});
