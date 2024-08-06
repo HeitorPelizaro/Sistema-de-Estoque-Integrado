@@ -1,68 +1,4 @@
 /**
-<<<<<<< HEAD
-* Importa o módulo dotenv para carregar variáveis de ambiente
-*/
-require('dotenv').config();
-
-/**
-* Importa o framework Express para criar a aplicação web
-*/
-const express = require('express');
-
-/**
-* Importa o driver MySQL2 para se conectar ao banco de dados
-*/
-const mysql = require('mysql2');
-
-/**
-* Importa o middleware Body-Parser para parsear requisições HTTP
-*/
-const bodyParser = require('body-parser');
-
-/**
-* Importa o módulo Bcrypt para criptografar senhas
-*/
-const bcrypt = require('bcryptjs');
-
-/**
-* Importa o middleware Express-Session para gerenciar sessões de usuário
- */
-const session = require('express-session');
-
-const flash = require('connect-flash');
-
-/**
-* Cria uma instância da aplicação Express
-*/
-const app = express();
-
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-app.use(flash());
-
-// Middleware para tornar as mensagens flash disponíveis nas views
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    next();
-});
-
-/**
-* Define a porta padrão para a aplicação (ou usa a porta definida na variável de ambiente PORT)
-*/
-const port = process.env.PORT || 3000;
-
-/**
-* Configuração do banco de dados MySQL
-* 
-* As variáveis de ambiente DB_HOST, DB_USER, DB_PASSWORD e DB_NAME devem ser definidas
-* em um arquivo .env para que a aplicação possa se conectar ao banco de dados
-*/
-=======
  * Importa o módulo dotenv para carregar variáveis de ambiente
  */
 require('dotenv').config();
@@ -108,7 +44,6 @@ const port = process.env.PORT || 3000;
  * As variáveis de ambiente DB_HOST, DB_USER, DB_PASSWORD e DB_NAME devem ser definidas
  * em um arquivo .env para que a aplicação possa se conectar ao banco de dados
  */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -151,11 +86,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-<<<<<<< HEAD
-    cookie: { secure: process.env.NODE_ENV === 'production' } // Configuração para usar cookies seguros em produção
-=======
     cookie: { secure: false } 
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 }));
 
 /**
@@ -178,50 +109,28 @@ app.get('/login', (req, res) => {
     res.render('index');
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Processar o login
  * Verifica se o email e senha estão corretos e, se sim, loga o usuário
  */
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-<<<<<<< HEAD
-=======
     /**
      * Consultar o banco de dados para verificar se o email existe
      */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
     const sql = 'SELECT * FROM users WHERE email =?';
     db.query(sql, [email], (err, results) => {
         if (err) throw err;
 
         if (results.length > 0) {
             const user = results[0];
-<<<<<<< HEAD
-=======
             /**
              * Verificar se a senha está correta usando bcrypt
              */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;
 
                 if (isMatch) {
-<<<<<<< HEAD
-                    req.session.user = user;
-                    res.redirect('/dashboard');  
-                } else {
-                    req.flash('error_msg', 'Email ou senha incorretos!');
-                    res.redirect('/login');
-                }
-            });
-        } else {
-            req.flash('error_msg', 'Email ou senha incorretos!');
-            res.redirect('/login');
-=======
                     /**
                      * Logar o usuário e redirecionar para o dashboard
                      */
@@ -234,24 +143,15 @@ app.post('/login', (req, res) => {
             });
         } else {
             res.send('Email ou senha incorretos!');
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
         }
     });
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Renderiza a página de dashboard do usuário.
  * 
  
-<<<<<<< HEAD
-*/
-=======
  */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/dashboard', redirectToLogin, (req, res) => {
     res.render('dashboard', { user: req.session.user });
 });
@@ -260,11 +160,7 @@ app.get('/dashboard', redirectToLogin, (req, res) => {
  * Renderiza a página de importação de dados.
  * 
 
-<<<<<<< HEAD
-*/
-=======
  */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/importar', redirectToLogin, (req, res) => {
     res.render('importar', { user: req.session.user }); 
 });
@@ -273,27 +169,11 @@ app.get('/importar', redirectToLogin, (req, res) => {
  * Renderiza a página de exportação de dados.
  * 
 
-<<<<<<< HEAD
-*/
-=======
  */
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 app.get('/exportar', redirectToLogin, (req, res) => {
     res.render('exportar', { user: req.session.user });
 });
 
-<<<<<<< HEAD
-app.get('/tutorial', redirectToLogin, (req, res) => {
-    res.render('tutorial', { user: req.session.user });
-});
-app.get('/inserir', redirectToLogin, (req, res) => {
-    const successMessage = req.query.success ? 'Produto adicionado com sucesso!' : null;
-    const errorMessage = req.query.error || null;
-    res.render('inserir', { user: req.session.user, successMessage, errorMessage });
-});
-
-=======
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para processar a importação de dados
@@ -305,12 +185,6 @@ app.get('/inserir', redirectToLogin, (req, res) => {
  * @param {Object} req - Requisição HTTP
  * @param {Object} res - Resposta HTTP
  */
-<<<<<<< HEAD
-
-
-
-
-=======
 app.post('/importar', redirectToLogin, (req, res) => {
     /**
      * Variável que armazena os dados enviados pelo cliente
@@ -352,7 +226,6 @@ app.post('/importar', redirectToLogin, (req, res) => {
         res.status(400).send('Dados não recebidos');
     }
 });
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para renderizar a página de estoque
@@ -523,96 +396,6 @@ app.post('/atualizar-produto', redirectToLogin, (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-
-
-// Rota de importação
-app.post('/importar', (req, res) => {
-    const dados = req.body.dados;
-
-    // Função para validar os dados
-    function validarDados(dados) {
-        const linhas = dados.trim().split('\n');
-        return linhas.every(linha => {
-            const partes = linha.split(';');
-            return partes.length === 3 && partes.every(parte => parte.trim() !== '');
-        });
-    }
-
-    const importSuccessful = validarDados(dados);
-
-    if (importSuccessful) {
-        // Lógica para importar os dados
-        const linhas = dados.trim().split('\n');
-        let countProcessed = 0;
-
-        const processarLinha = (linha) => {
-            return new Promise((resolve, reject) => {
-                const dadosProduto = linha.split(';');
-
-                if (dadosProduto.length === 3) {
-                    const codigo_de_barras = dadosProduto[0].trim();
-                    const descricao = dadosProduto[1].trim();
-                    const quantidade = parseInt(dadosProduto[2].trim());
-
-                    const checkSql = 'SELECT * FROM produtos WHERE codigo_de_barras = ?';
-                    db.query(checkSql, [codigo_de_barras], (err, results) => {
-                        if (err) {
-                            console.error('Erro ao verificar produto:', err);
-                            return reject(err);
-                        }
-
-                        if (results.length > 0) {
-                            // Produto já existe, atualizar a quantidade
-                            const existingProduct = results[0];
-                            const newQuantity = existingProduct.quantidade + quantidade;
-
-                            const updateSql = 'UPDATE produtos SET quantidade = ? WHERE id = ?';
-                            db.query(updateSql, [newQuantity, existingProduct.id], (err, result) => {
-                                if (err) {
-                                    console.error('Erro ao atualizar quantidade:', err);
-                                    return reject(err);
-                                }
-                                resolve();
-                            });
-                        } else {
-                            // Produto não existe, prosseguir com a inserção
-                            const insertSql = 'INSERT INTO produtos (codigo_de_barras, descricao, quantidade) VALUES (?, ?, ?)';
-                            db.query(insertSql, [codigo_de_barras, descricao, quantidade], (err, result) => {
-                                if (err) {
-                                    console.error('Erro ao inserir produto:', err);
-                                    return reject(err);
-                                }
-                                resolve();
-                            });
-                        }
-                    });
-                } else {
-                    resolve(); // Resolva a promise mesmo com erro de formato
-                }
-            });
-        };
-
-        Promise.all(linhas.map(processarLinha))
-            .then(() => {
-                req.flash('success_msg', 'Produtos importados com sucesso!');
-                req.flash('error_msg', ''); // Limpa a mensagem de erro
-                res.redirect('/importar'); // Redireciona para a página de importação
-            })
-            .catch((err) => {
-                console.error('Erro ao processar dados:', err);
-                req.flash('error_msg', 'Erro ao importar produtos. Tente novamente.');
-                req.flash('success_msg', ''); // Limpa a mensagem de sucesso
-                res.redirect('/importar'); // Redireciona para a página de importação
-            });
-    } else {
-        req.flash('error_msg', 'Erro ao importar produtos. Verifique os dados e tente novamente.');
-        req.flash('success_msg', ''); // Limpa a mensagem de sucesso
-        res.redirect('/importar'); // Redireciona para a página de importação
-    }
-});
-
-=======
 /**
  * Endpoint para importar produtos em lote
  * 
@@ -744,7 +527,6 @@ app.get('/inserir', redirectToLogin, (req, res) => {
      */
     res.render('inserir', { user: req.session.user, successMessage, error });
 });
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
 /**
  * Rota para inserir um produto via POST
@@ -827,11 +609,6 @@ app.get('/logout', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 /**
  * Inicializa o servidor e define a porta de escuta.
  * 
@@ -843,8 +620,4 @@ app.listen(port, () => {
      * Imprime uma mensagem no console indicando que o servidor está rodando.
      */
     console.log(`Servidor rodando em http://localhost:${port}`);
-<<<<<<< HEAD
-});
-=======
   });
->>>>>>> 16621573158837e02397998ad9291c13cad19abd

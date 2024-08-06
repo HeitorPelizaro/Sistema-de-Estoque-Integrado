@@ -13,23 +13,13 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
-<<<<<<< HEAD
-    "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
-    "csv-parser": "^3.0.0",
-=======
-    "cors": "^2.8.5",
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "mysql": "^2.18.1",
-<<<<<<< HEAD
-    "mysql2": "^3.11.0",
-=======
     "mysql2": "^3.10.0",
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
     "nodemon": "^3.1.4",
     "serverless-mysql": "^1.5.5"
   }
