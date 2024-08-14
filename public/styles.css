@@ -654,8 +654,9 @@ form {
      */
 }
 
-.product-details update-product {
+.product-details-update-product {
     text-align: center;
+    margin-top: 10%;
 }
 
 .product-details p {

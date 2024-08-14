@@ -373,15 +373,28 @@ app.post('/adicionar-produto', redirectToLogin, (req, res) => {
 app.post('/atualizar-produto', redirectToLogin, (req, res) => {
     const { id, descricao, quantidade } = req.body;
 
-    const sql = 'UPDATE produtos SET descricao =?, quantidade =? WHERE id =?';
+    // Validação simples dos dados recebidos
+    if (!id || !descricao || !quantidade) {
+        return res.status(400).send('Todos os campos são obrigatórios');
+    }
+
+    const sql = 'UPDATE produtos SET descricao = ?, quantidade = ? WHERE id = ?';
     db.query(sql, [descricao, parseInt(quantidade), id], (err, result) => {
         if (err) {
             console.error('Erro ao atualizar produto:', err);
             return res.status(500).send('Erro ao atualizar produto');
         }
+
+        if (result.affectedRows === 0) {
+            // Caso o ID não exista no banco de dados
+            return res.status(404).send('Produto não encontrado');
+        }
+
+        // Redireciona para a página de scan após a atualização bem-sucedida
         res.redirect('/scan');
     });
 });
+
 
 /**
  * Endpoint para importar produtos em lote
