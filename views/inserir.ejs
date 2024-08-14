@@ -8,19 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- Menu superior com ícones de menu, home e informações do usuário -->
+    <!-- Menu superior -->
     <div class="top-menu">
-        <!-- Ícone de menu -->
-        <div class="menu-icon">
-            <i class="fas fa-bars"></i> 
-        </div>
         <!-- Ícone de home -->
         <div class="home-icon">
             <a href="/dashboard">
-                <i class="fas fa-home"></i> 
+                <i class="fas fa-home"></i>
             </a>
         </div>
-        <!-- Informações do usuário, apenas visível se o usuário estiver logado -->
+        <!-- Informações do usuário (somente se estiver logado) -->
         <% if (user) { %>
         <div class="user-info">
             <span><%= user.nome %></span>
@@ -28,6 +24,8 @@
         </div>
         <% } %>   
     </div>
+
+
     <!-- Container principal do formulário -->
     <div class="container">
         <!-- Título do formulário -->
@@ -51,18 +49,7 @@
                 <input type="text" id="quantidade" name="quantidade" required>
             </div>
             <!-- Mensagem de sucesso, apenas visível se o produto for adicionado com sucesso -->
-<<<<<<< HEAD
              <!-- Mensagem de sucesso, apenas visível se o produto for adicionado com sucesso -->
-=======
-            <% if (successMessage) { %>
-                <div class="alert alert-success" role="alert" style="color: green;"><%= successMessage %></div>
-            <% } %>
-            
-            <!-- Mensagem de erro, apenas visível se ocorrer um erro ao adicionar o produto -->
-            <% if (error) { %>
-                <div class="alert alert-danger" role="alert" style="color: red;"><%= error %></div>
-            <% } %>
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
             <!-- Container do botão de submit -->
             <div class="button-container">
                 <button type="submit">Adicionar Produto</button>

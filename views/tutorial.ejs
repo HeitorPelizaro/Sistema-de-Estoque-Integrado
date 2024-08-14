@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,94 +8,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    <!-- Menu superior -->
     <div class="top-menu">
-        <!-- Menu superior da página -->
-        <div class="menu-icon">
-            <i class="fas fa-bars"></i>
-        </div>
+        <!-- Ícone de home -->
         <div class="home-icon">
             <a href="/dashboard">
                 <i class="fas fa-home"></i>
             </a>
         </div>
+        <!-- Informações do usuário (somente se estiver logado) -->
         <% if (user) { %>
         <div class="user-info">
-            <!-- Informações do usuário logado -->
             <span><%= user.nome %></span>
             <i class="fas fa-user-circle"></i>
         </div>
-        <% } %>
+        <% } %>   
     </div>
 
     <div class="tutorial-container">
         <header>
             <h1>Como Usar o Supermercado MEGA</h1>
         </header>
-        
-        
-    </div>
-
-     <!-- Botão de logout -->
-     <div class="logout-container">
-        <a href="/logout" class="logout-btn">Sair</a>
-    </div>
-
-    <!-- Botão de volta -->
-    <div class="back-button-container">
-        <a href="/dashboard" class="logout-btn">Voltar</a>
-    </div>
-</body>
-</html>
-=======
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial de Uso</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-    <div class="top-menu">
-        <!-- 
-            Menu superior da página, contendo ícones de menu, home e informações do usuário.
-        -->
-        <div class="menu-icon">
-            <i class="fas fa-bars"></i> 
-        </div>
-        <div class="home-icon">
-            <a href="/dashboard">
-                <i class="fas fa-home"></i> 
-            </a>
-        </div>
-        <% if (user) { %>
-        <div class="user-info">
-            <!-- 
-                Informações do usuário logado, exibindo o nome do usuário e um ícone de perfil.
-            -->
-            <span><%= user.nome %></span>
-            <i class="fas fa-user-circle"></i>
-        </div>
-        <% } %>
-        
-    </div>
-
     
-
-
+        <h2>Tutorial Disponíveil para Download</h2>
+            <a href="/download-tutorial" class="btn" download>Baixar Tutorial em PDF</a>
+            (Upload em: 14/08/2024, 10:55)
+    </div>
+    
+    <!-- Container do botão de logout -->
     <div class="logout-container">
-        <!-- 
-            Container do botão de logout, permitindo que o usuário saia da sessão.
-        -->
         <a href="/logout" class="logout-btn">Sair</a>
     </div>
+    <!-- Container do botão de voltar -->
     <div class="back-button-container">
-        <!-- 
-            Container do botão de voltar, permitindo que o usuário retorne à página anterior.
-        -->
         <a href="/dashboard" class="logout-btn">Voltar</a>
     </div>
+    
 </body>
 </html>
->>>>>>> 16621573158837e02397998ad9291c13cad19abd

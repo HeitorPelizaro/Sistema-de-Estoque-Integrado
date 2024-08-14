@@ -120,6 +120,22 @@ const redirectToLogin = (req, res, next) => {
     }
 };
 
+// Redireciona a rota raiz para a página de login
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+// Rota para baixar o tutorial em PDF
+app.get('/download-tutorial', (req, res) => {
+    const file = `${__dirname}/public/TutorialdeUso.pdf`; // ajuste o caminho conforme necessário
+    res.download(file, 'TutorialdeUso.pdf', (err) => {
+        if (err) {
+            console.error('Erro ao enviar o arquivo:', err);
+            res.status(500).send('Erro ao baixar o arquivo.');
+        }
+    });
+});
+
 /**
  * Renderizar a página de login
  */

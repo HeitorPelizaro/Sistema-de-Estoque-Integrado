@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title><%= product ? 'Detalhes do Produto' : 'Escanear Produto' %></title>
-=======
-    <title>Escanear Produto</title>
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
     <!-- Importação do arquivo de estilo CSS -->
     <link rel="stylesheet" href="/styles.css">
     <!-- Importação do arquivo de estilo CSS do Font Awesome -->
@@ -16,28 +12,24 @@
 <body>
     <!-- Menu superior -->
     <div class="top-menu">
-        <!-- Ícone de menu -->
-        <div class="menu-icon">
-            <i class="fas fa-bars"></i>
-        </div>
         <!-- Ícone de home -->
         <div class="home-icon">
             <a href="/dashboard">
                 <i class="fas fa-home"></i>
             </a>
         </div>
-        <!-- Informações do usuário -->
+        <!-- Informações do usuário (somente se estiver logado) -->
         <% if (user) { %>
         <div class="user-info">
             <span><%= user.nome %></span>
             <i class="fas fa-user-circle"></i>
         </div>
-        <% } %>
+        <% } %>   
     </div>
+
 
     <!-- Container principal -->
     <div class="container">
-<<<<<<< HEAD
         <% if (!product) { %>
             <!-- Título da página -->
             <h1>Escanear Produto</h1>
@@ -54,22 +46,6 @@
                 </div>
             </form>
         <% } %>
-=======
-        <!-- Título da página -->
-        <h1>Escanear Produto</h1>
-        <!-- Formulário de busca de produto -->
-        <form action="/scan" method="POST" class="form-container">
-            <!-- Grupo de campos do formulário -->
-            <div class="form-group">
-                <label for="barcode">Código de Barras:</label>
-                <input type="text" id="barcode" name="barcode" required>
-            </div>
-            <!-- Container do botão de busca -->
-            <div class="button-container">
-                <button type="submit">Buscar</button>
-            </div>
-        </form>
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
 
         <!-- Se o produto for encontrado -->
         <% if (product) { %>
@@ -82,11 +58,7 @@
             </div>
 
             <!-- Formulário de atualização do produto -->
-<<<<<<< HEAD
             <div class="product-details update-product">
-=======
-            <div class="update-product">
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
                 <h2>Atualizar Produto</h2>
                 <form action="/atualizar-produto" method="POST" class="form-container">
                     <!-- Campo oculto com o ID do produto -->
@@ -143,8 +115,4 @@
         <a href="/dashboard" class="logout-btn">Voltar</a>
     </div>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 16621573158837e02397998ad9291c13cad19abd
