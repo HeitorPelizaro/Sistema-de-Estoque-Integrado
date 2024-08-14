@@ -255,13 +255,16 @@ button:hover {
     color: #ffeb3b; /* Mudar a cor do ícone ao passar o mouse */
 }
 
+.container {
+    margin-top: 10%;
+}
 
 .container h1{
     /* 
      * Define a margem inferior do título do container.
      * Ajuste o valor conforme necessário.
      */
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
 }
 
 .container h2{
@@ -269,7 +272,8 @@ button:hover {
      * Define a margem inferior do subtítulo do container.
      * Ajuste o valor conforme necessário.
      */
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .form-group {
