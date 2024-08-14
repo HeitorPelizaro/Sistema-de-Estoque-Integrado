@@ -20,6 +20,7 @@ describe('Usuário', () => {
        cy.get('#password').type("26112002")
        //cy.get(':nth-child(3) > input').type("heitor26112002")
        cy.get('button').click()
+       cy.get('[href="/importar"] > button').should('exist')
        //cy.get('.buttonEntLogin').click()
        //cy.get('.buttonEntLogin').click()
 
