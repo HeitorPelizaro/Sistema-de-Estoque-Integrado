@@ -265,6 +265,7 @@ button:hover {
      * Ajuste o valor conforme necessário.
      */
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .container h2{
@@ -451,7 +452,9 @@ button:hover {
     height: 100vh; /* Ajuste conforme necessário */
     padding: 20px;
     box-sizing: border-box;
+    margin-top: 2rem;
 }
+
 
 
 .estoque-table th {
@@ -649,6 +652,10 @@ form {
      *  - margin-top: margem superior dos detalhes do produto
      *  - text-align: alinhamento do texto dos detalhes do produto
      */
+}
+
+.product-details update-product {
+    text-align: center;
 }
 
 .product-details p {
