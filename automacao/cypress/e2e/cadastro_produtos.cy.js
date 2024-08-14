@@ -23,7 +23,7 @@ describe('Gerente', () => {
       // do produto como por exemplo Cod de barras; Descrição; Qtd;
       // Para adicionar mais de um produto, separe por um {enter}.
        cy.get('textarea').should('be.empty')
-       cy.get('textarea').type("123412; bbbb; 12").should("be.visible")
+       cy.get('textarea').type("123412; bbbb; 12{enter}").should("be.visible")
        cy.get('.submit-button').click()
     });
   

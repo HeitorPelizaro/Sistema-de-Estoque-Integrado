@@ -22,15 +22,16 @@ describe('Usuário', () => {
      cy.get('button').click()
      //cy.get('.buttonEntLogin').click()
      //cy.get('.buttonEntLogin').click()
-     cy.get('[href="/scan"] > .btn').click()
+     cy.get('[href="/inserir"] > .btn').click()
+     cy.get('#codigo_de_barras').type("aa").should('not.have.value', '')
+     //cy.get('#codigo_de_barras')
+     cy.get('#descricao').type("aaabbb").should('not.have.value', '')
      //validar se o numero é int
-     cy.get('#barcode').type("123412")
-       .invoke('val')
-       .should(value => {
-       expect(Number.isInteger(+value), 'input should be an integer').to.eq(true) // fails
-  })
+     cy.get('#quantidade').type('15')
+        .invoke('val')
+        .should(value => {
+        expect(Number.isInteger(+value), 'input should be an integer').to.eq(true) // fails
+     })
      cy.get('button').click()
-     cy.get('.product-found > h2').should('exist')
-
   });
 });
