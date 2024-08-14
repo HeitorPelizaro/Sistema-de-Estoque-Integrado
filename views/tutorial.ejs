@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importação de Produtos</title>
+    <title>Tutorial de Uso</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -25,30 +25,24 @@
         <% } %>   
     </div>
 
-
-    <!-- Mensagens de sucesso e erro -->
-    <!-- Mensagens de sucesso e erro -->
-    <div class="success-message"><%= success_msg %></div>
-    <div class="error-message"><%= error_msg %></div>
-
-
-    <div class="container-import">
-        <div class="form-container">
-            <form action="/importar" method="post">
-                <h2>Importar Produtos</h2>
-                <textarea name="dados" rows="10" placeholder="Cole os dados dos produtos aqui, de acordo com modelo: Codigo de Barras; Descrição; Quantidade" required></textarea>
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-file-upload"></i> Enviar
-                </button>
-            </form>
-        </div>
+    <div class="tutorial-container">
+        <header>
+            <h1>Como Usar o Supermercado MEGA</h1>
+        </header>
+    
+        <h2>Tutorial Disponível para Download</h2>
+            <a href="/download-tutorial" class="btn" download>Baixar Tutorial em PDF</a>
+            (Upload em: 14/08/2024, 10:55)
     </div>
-
+    
+    <!-- Container do botão de logout -->
     <div class="logout-container">
         <a href="/logout" class="logout-btn">Sair</a>
     </div>
+    <!-- Container do botão de voltar -->
     <div class="back-button-container">
         <a href="/dashboard" class="logout-btn">Voltar</a>
     </div>
+    
 </body>
 </html>

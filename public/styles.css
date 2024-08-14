@@ -23,11 +23,8 @@ body {
     height: 100vh;
 }
 
+/* Container do dashboard */
 .dashboard-container {
-    /* 
-     * Define o container do dashboard como um container flexível 
-     * que centraliza os elementos horizontal e verticalmente.
-     */
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -35,44 +32,66 @@ body {
     height: 85vh;
 }
 
-.dashboard-container aside button {
-    /* 
-     * Define os estilos dos botões dentro do aside do dashboard.
-     * Eles terão uma largura de 300px, padding de 20px e 
-     * uma borda arredondada de 30px.
-     */
-    margin: 6px;
-    margin-top: 20px;
-    border: none;
-    outline: none;
-    width: 300px;
-    text-align: left;
-    padding: 20px;
-    font-size: 1.3em;
-    background-color: #007bff;
-    color: white;
-    border-radius: 30px;
-    transition: background-color 0.3s;
+/* Estilo dos links */
+.dashboard-container aside a {
+    text-decoration: none; /* Remove a decoração do link */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centraliza o link */
 }
 
-.dashboard-container aside button i {
-    /* 
-     * Define o espaçamento entre o ícone e o texto do botão.
-     */
-    margin-right: 10px;
+/* Estilo geral dos botões */
+.btn {
+  border: none;
+  font-family: 'Lato';
+  font-size: inherit;
+  color: #fff; /* Cor do texto */
+  background: #007bff; /* Cor de fundo azul */
+  cursor: pointer;
+  padding: 25px 80px;
+  display: inline-block;
+  margin: 15px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  outline: none;
+  position: relative;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 30px;
+  width: 300px; /* Mantém a largura */
+  text-align: center;
 }
 
-.dashboard-container button {
-    /* 
-     * Define os estilos dos botões dentro do dashboard.
-     * Eles terão uma margem inferior de 10px e font-size de 1.2em.
-     */
-    margin-bottom: 10px;
-    font-size: 1.2em;
+.btn i {
+  margin-right: 20px;
+  font-size: 1.5em; /* Tamanho do ícone */
 }
+
+.btn:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s;
+}
+
+/* Separador de ícones */
+.btn-sep {
+  padding: 25px 60px 25px 100px; /* Ajuste do padding para o ícone */
+}
+
+/* Estilo padrão para todos os botões */
+.btn:hover {
+  background: #0069d9; /* Cor azul ao passar o mouse */
+  text-decoration: underline; /* Texto sublinhado ao passar o mouse */
+}
+
+.btn:active {
+  background: #0056b3; /* Cor azul ao clicar */
+  top: 2px;
+}
+  
 
 .dashboard-login {
     /* 
@@ -187,50 +206,55 @@ button:hover {
     background-color: #e9ecef;
 }
 
+/* Estilização do menu superior */
 .top-menu {
-    /* 
-     * Define os estilos do menu superior.
-     * Ele terá uma cor de fundo azul, padding de 10px e 
-     * centralizará os elementos horizontalmente.
-     */
+    background-color: #007bff; /* Cor de fundo da barra superior */
+    padding: 10px 20px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    background-color: #007bff;
-    padding: 10px;
+    color: #ffffff; /* Cor do texto e ícones */
+    font-size: 18px; /* Tamanho padrão da fonte */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Estilização do ícone de home */
+.home-icon a {
     color: #ffffff;
+    font-size: 24px; /* Tamanho do ícone */
+    transition: color 0.3s, transform 0.3s;
 }
 
-.user-icon, .user-info {
-    /* 
-     * Define os estilos dos ícones e informações do usuário.
-     * Eles terão uma font-size de 25px e centralizarão o texto horizontalmente.
-     */
-    font-size: 25px;
-    text-align: center;
+.home-icon a:hover {
+    color: #ffeb3b; /* Mudar a cor ao passar o mouse */
+    transform: scale(1.2); /* Aumenta ligeiramente o ícone ao passar o mouse */
 }
 
-.fas {
-    /* 
-     * Define os estilos dos ícones Font Awesome.
-     * Eles terão uma font-size de 26px.
-     */
-    font-size: 26px;
-}
-
-.container {
-    /* 
-     * Define os estilos do container geral.
-     * Ele terá uma cor de fundo branca, padding de 10px e 
-     * centralizará os elementos horizontal e verticalmente.
-     */
+/* Estilização das informações do usuário */
+.user-info {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    height: 70vh;
-    margin: 10px;
+    font-size: 18px; /* Tamanho da fonte do nome do usuário */
 }
+
+.user-info span {
+    margin-right: 8px; /* Espaçamento entre o nome e o ícone */
+    font-weight: 600;
+}
+
+.user-info i {
+    font-size: 24px; /* Tamanho do ícone de usuário */
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+.user-info i:hover {
+    color: #ffeb3b; /* Mudar a cor do ícone ao passar o mouse */
+}
+
 
 .container h1{
     /* 
@@ -255,7 +279,8 @@ button:hover {
      * centralizará os elementos horizontalmente.
      */
     margin-bottom: 20px;
-    width: 100%;
+    width: 60%;
+    height: 50%;
 }
 
 .form-group label {
@@ -402,8 +427,9 @@ button:hover {
 .estoque-table {
     text-align: center;
     max-width: 100%;
-    margin: 0 auto;
+    margin: 10px auto 0; /* Ajuste o valor conforme necessário */
     border-collapse: collapse;
+
     /**
      * Descrição: Define o estilo padrão para tabela de estoque.
      * Propriedades:
@@ -413,6 +439,16 @@ button:hover {
      *  - border-collapse: comportamento das bordas da tabela
      */
 }
+.container-estoque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Garante espaço entre a tabela e o botão */
+    height: 100vh; /* Ajuste conforme necessário */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 
 .estoque-table th {
     background-color: #007bff;
@@ -496,80 +532,62 @@ form {
      */
 }
 
-/**
- * Estilos para container de logout
- */
+/* Estilo geral para o botão de logout e voltar */
+.logout-btn {
+    background-color: #007bff; /* Cor de fundo azul */
+    color: #fff; /* Cor do texto branco */
+    text-decoration: none;
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer;
+    font-size: 20px;
+    font-family: 'Lato';
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+/* Estilo do botão ao passar o mouse */
+.logout-btn:hover {
+    background-color: #0069d9; /* Cor azul mais escura ao passar o mouse */
+    text-decoration: underline; /* Texto sublinhado ao passar o mouse */
+}
+
+/* Container do botão de logout (canto inferior esquerdo) */
 .logout-container {
     position: fixed;
     bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: left;
-    width: 100%;
-    /**
-     * Descrição: Define o estilo do container de logout.
-     * Propriedades:
-     *  - position: posição do container
-     *  - bottom: distância do container até a borda inferior
-     *  - left: distância do container até a borda esquerda
-     *  - transform: efeito de translação do container
-     *  - text-align: alinhamento do texto do container
-     *  - width: largura do container
-     */
+    left: 20px;
 }
 
-.logout-btn {
-    background-color: #0056b3;
-    color: #f8f8f8;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
-    /**
-     * Descrição: Define o estilo do botão de logout.
-     * Propriedades:
-     *  - background-color: cor de fundo do botão
-     *  - color: cor do texto do botão
-     *  - text-decoration: decoração do texto do botão
-     *  - padding: espaçamento interno do botão
-     *  - border-radius: arredondamento das bordas do botão
-     *  - cursor: tipo de cursor do botão
-     *  - font-size: tamanho da fonte do botão
-     */
-}
-
-.logout-btn:hover {
-    text-decoration: underline;
-    /**
-     * Descrição: Define o estilo do botão de logout quando o mouse está sobre ele.
-     * Propriedades:
-     *  - text-decoration: decoração do texto do botão quando o mouse está sobre ele
-     */
-}
-
-/**
- * Estilos para container de botão de volta
- */
+/* Container do botão de voltar (centralizado na parte inferior) */
 .back-button-container {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    width: 100%;
-    font-size: 20px;
-    /**
-     * Descrição: Define o estilo do container do botão de volta.
-     * Propriedades:
-     *  - position: posição do container
-     *  - bottom: distância do container até a borda inferior
-     *  - left: distância do container até a borda esquerda
-     *  - transform: efeito de translação do container
-     *  - text-align: alinhamento do texto do container
-     *  - width: largura do container
-     *  - font-size: tamanho da fonte do container
-     */
+}
+
+/* Container do botão de voltar na página de estoque (alinhado à direita) */
+.back-button-container-estoque {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+}
+
+/* Centraliza a div tutorial-container */
+.tutorial-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    height: 100vh; /* Altura da tela inteira */
+    text-align: center; /* Centraliza o texto dentro da div */
 }
 
 /**
@@ -597,13 +615,18 @@ form {
  */
 .error-message {
     color: red;
-    margin-top: 10px;
-    /**
-     * Descrição: Define o estilo para mensagens de erro.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de erro
-     *  - margin-top: margem superior da mensagem de erro
-     */
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed; /* Altera para posição fixa */
+    top: 50px; /* Ajuste a posição superior conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Garante que esteja acima de outros elementos */
+    background-color: white; /* Adiciona fundo branco */
+    padding: 10px; /* Adiciona padding para melhor visualização */
+    border-radius: 5px; /* Adiciona borda arredondada */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
 }
 
 /**
@@ -612,7 +635,7 @@ form {
 .product-details {
     padding: 15px;
     max-width: 380px;
-    margin-top: 20px;
+    margin-top: 220px;
     text-align: center;
     /**
      * Descrição: Define o estilo para detalhes do produto.
@@ -636,20 +659,82 @@ form {
 /**
  * Estilos específicos para mensagens de produto encontrado e não encontrado
  */
-.product-not-found {
-    color: red; /* Altera a cor para vermelho */
-    /**
-     * Descrição: Define o estilo para mensagens de produto não encontrado.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de produto não encontrado
-     */
-}
+ .product-not-found {
+    color: red;
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
 
 .product-found {
-    color: green; /* Altera a cor para verde */
-    /**
-     * Descrição: Define o estilo para mensagens de produto encontrado.
-     * Propriedades:
-     *  - color: cor do texto da mensagem de produto encontrado
-     */
+    color: green;
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 20px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: rgb(80, 238, 93);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.error-background {
+    background-color: rgba(255, 0, 0, 0.5); /* Fundo vermelho com opacidade */
+    color: white; /* Texto branco */
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    text-align: center;
+    z-index: 1000; /* Garante que o fundo de erro fique sobre outros elementos */
+}
+
+.error-background.active {
+    display: block; /* Mostra o fundo de erro se a classe 'active' estiver presente */
+}
+/* styles.css */
+.success-message,
+.error-message {
+    display: none; /* Esconde as mensagens por padrão */
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Exibe as mensagens quando há conteúdo */
+.success-message:not(:empty),
+.error-message:not(:empty) {
+    display: block;
+}
+
+.update-product.h2 {
+    padding: 50px;
+}
+
